@@ -88,5 +88,5 @@ namespace Sort{
             ++index;
         }
     }
-}
-}
+}   // namespace Sort
+}   // namespace AlgoLib
