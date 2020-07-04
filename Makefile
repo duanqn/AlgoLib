@@ -1,7 +1,7 @@
 BINDIR := .
 SRCDIR := .
 
-CXXFLAGS = -O2 -std=c++14
+CXXFLAGS = -O2 -std=c++17
 
 .PHONY: all clean test
 all: test
