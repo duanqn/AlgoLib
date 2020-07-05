@@ -4,12 +4,14 @@ SRCDIR := .
 CXXFLAGS = -O2 -std=c++17
 
 .PHONY: all clean test
-all: test
+all: build
 
 TESTSRC := $(wildcard $(SRCDIR)/*_test.cpp)
 TESTTARGET := $(patsubst $(SRCDIR)/%.cpp, $(BINDIR)/%, $(TESTSRC))
 
 SHELL := /bin/bash
+
+build: $(TESTTARGET)
 
 test: $(TESTTARGET)
 	rm -f test.log
