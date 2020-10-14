@@ -24,10 +24,16 @@ namespace AlgoLib::DataStructure{
 
             bool fOverflow = false;
             for(auto dimSize: size){
+                #ifdef __GNUC__
                 fOverflow = __builtin_umul_overflow(totalSize, dimSize, &totalSize);
                 if(fOverflow){
                     throw Exception(Exception::SIZE_TOOLARGE);
                 }
+                #elif defined _WIN32
+                totalSize *= dimSize;
+                #else
+                #error Platform unsupported
+                #endif
             }
 
             if(totalSize <= 0){
