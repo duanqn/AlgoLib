@@ -1,0 +1,14 @@
+CPPFLAGS = /std:c++17 /EHsc /O2
+TESTTARGET = arraynd_test.exe qsort_test.exe heap_test.exe heapsort_test.exe tcleanup_test.exe
+
+all: build
+
+build: $(TESTTARGET)
+
+test: $(TESTTARGET)
+	del test.log
+	for %e in ($(TESTTARGET)) do %e >> test.log
+
+clean:
+	del $(TESTTARGET)
+	del $(TESTTARGET:exe=obj)
