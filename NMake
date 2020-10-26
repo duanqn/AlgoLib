@@ -1,5 +1,5 @@
 CPPFLAGS = /std:c++17 /EHsc /O2
-TESTTARGET = arraynd_test.exe qsort_test.exe heap_test.exe heapsort_test.exe tcleanup_test.exe
+TESTTARGET = arraynd_test.exe qsort_test.exe heap_test.exe heapsort_test.exe tcleanup_test.exe strsplit_test.exe
 
 all: build
 
