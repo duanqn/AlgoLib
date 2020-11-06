@@ -8,10 +8,14 @@ namespace AlgoLib::DataStructure{
     template<typename T, int dim>
     class ArrayND{
         private:
-        std::vector<size_t> m_size;
-        T* m_data;
+        static_assert(dim > 0);
+
         bool m_ownData;
 
+        protected:
+        std::vector<size_t> m_size;
+        T* m_data;
+        
         void validateSize(const std::vector<size_t>& size) const {
             if(size.size() != dim){
                 printf("Expecting %d but got %d\n", dim, size.size());
@@ -54,7 +58,7 @@ namespace AlgoLib::DataStructure{
             }
         }
 
-        ~ArrayND(){
+        virtual ~ArrayND(){
             if(m_ownData){
                 delete[] m_data;
             }
@@ -83,7 +87,7 @@ namespace AlgoLib::DataStructure{
         }
 
         template<typename U = T>
-        std::enable_if_t< (dim == 1), ArrayND<U, dim - 1> const> operator[](size_t index) const {
+        std::enable_if_t< (dim > 1), ArrayND<U, dim - 1> const> operator[](size_t index) const {
             std::vector<size_t> newSize;
             for(int i = 1; i < dim; ++i){
                 newSize.push_back(m_size[i]);

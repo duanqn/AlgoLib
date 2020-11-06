@@ -22,6 +22,7 @@ namespace AlgoLib{
         const static int SIZE_TOOLARGE = OK + 1;
         const static int ALLOC_FAILURE = SIZE_TOOLARGE + 1;
         const static int ARG_ILL_FORMAT = ALLOC_FAILURE + 1;
+        const static int MATRIX_SIZE_ERROR = ARG_ILL_FORMAT + 1;
     };
 
 }
