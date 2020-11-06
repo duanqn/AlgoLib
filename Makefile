@@ -19,6 +19,9 @@ test: $(TESTTARGET)
 		$$exe >> test.log ; \
 	done
 
+$(BINDIR)/number_test: $(SRCDIR)/number_test.cpp $(SRCDIR)/number.cpp
+	$(CXX) $^ $(CXXFLAGS) -o $@
+
 $(BINDIR)/%_test : $(SRCDIR)/%_test.cpp
 	$(CXX) $^ $(CXXFLAGS) -o $@
 
