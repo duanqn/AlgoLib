@@ -29,6 +29,18 @@ namespace AlgoLib::DataStructure{
         void relocate(T* location, size_t capacity);
 
         void setCapacity(size_t capacity);
+
+        ScaleArray(const ScaleArray& other, size_t capacity): m_size(other.m_size), m_capacity(capacity){
+            if(m_size > m_capacity){
+                // not allowed to shrink below m_size
+                throw AlgoLib::Exception(AlgoLib::Exception::UNEXPECTED);
+            }
+
+            allocMem(m_capacity);
+            for(int i = 0; i < m_size; ++i){
+                new(&m_mem[i]) T(other.m_mem[i]);
+            }
+        }
         
         public:
         ScaleArray(): m_size(0), m_capacity(m_default_init_cap){
@@ -47,7 +59,7 @@ namespace AlgoLib::DataStructure{
         }
 
         ScaleArray(const ScaleArray& other): m_size(other.m_size), m_capacity(other.m_capacity){
-            allocMem(capacity);
+            allocMem(m_capacity);
             for(int i = 0; i < m_size; ++i){
                 new(&m_mem[i]) T(other.m_mem[i]);
             }
@@ -67,6 +79,7 @@ namespace AlgoLib::DataStructure{
         ScaleArray& operator = (const ScaleArray& other);
         ScaleArray& operator = (ScaleArray&& other);
         ScaleArray& operator = (ScaleArray other) = delete;
+        void swap(ScaleArray& other);
 
         const T& front() const;
         T& front();
@@ -104,7 +117,7 @@ namespace AlgoLib::DataStructure{
         if(m_mem == nullptr){
             return;
         }
-        
+
         for(int i = 0; i < m_size; ++i){
             m_mem[i].~T();
         }
@@ -197,16 +210,8 @@ namespace AlgoLib::DataStructure{
 
     template<typename T>
     void ScaleArray<T>::relocate(T* location, size_t capacity){
-        for(int i = 0; i < m_size; ++i){
-            new (&location[i]) T(m_mem[i]);
-        }
-
-        clear();
-
-        // Keep m_size unchanged
-        m_capacity = capacity;
-        deallocMem();
-        m_mem = location;
+        ScaleArray<T> temp(*this, capacity);
+        swap(temp);
     }
 
     template<typename T>
@@ -264,6 +269,50 @@ namespace AlgoLib::DataStructure{
 
         m_mem[m_size - 1].~T();
         --m_size;
+    }
+
+    template<typename T>
+    void ScaleArray<T>::resize(size_t size){
+        if(size <= m_size){
+            for(int i = size; i < m_size; ++i){
+                m_mem[i].~T();
+            }
+        }
+        else{
+            T temp;
+            for(int i = m_size; i < size; ++i){
+                push_back(temp);
+            }
+        }
+
+        m_size = size;
+    }
+
+    template<typename T>
+    void ScaleArray<T>::reserve(size_t capacity){
+        if(capacity > m_capacity){
+            setCapacity(capacity);
+        }
+    }
+
+    template<typename T>
+    void ScaleArray<T>::shrink_to_fit(){
+        setCapacity(m_size);
+    }
+
+    template<typename T>
+    void ScaleArray<T>::swap(ScaleArray<T>& other){
+        T* tmpPtr = m_mem;
+        m_mem = other.m_mem;
+        other.m_mem = tmpPtr;
+
+        size_t tmpSize = m_size;
+        m_size = other.m_size;
+        other.m_size = tmpSize;
+
+        tmpSize = m_capacity;
+        m_capacity = other.m_capacity;
+        other.m_capacity = tmpSize;
     }
 
 } // AlgoLib::DataStructure

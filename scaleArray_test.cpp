@@ -1,6 +1,14 @@
 #include "scaleArray.hpp"
 #include <cstdio>
 #include <vector>
+#include <chrono>
+
+#define WORKAROUND
+#ifdef WORKAROUND
+#define PRId64 "lld"
+#else
+#include <inttypes.h>
+#endif
 
 class Tester final{
     private:
@@ -32,18 +40,38 @@ class Tester final{
     }
 };
 
+class StopWatch final{
+    private:
+    std::chrono::high_resolution_clock::time_point construction;
+
+    public:
+    StopWatch(): construction(std::chrono::high_resolution_clock::now()){}
+    ~StopWatch(){
+        auto destruction = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(destruction - construction);
+        printf("Time elapsed: %lf us\n", duration.count() / 1000.0 / 1000.0);
+    }
+};
+
 int Tester::instanceCount = 0;
 int Tester::constructionCount = 0;
 int Tester::destructionCount = 0;
 
 int main(){
+    int test_count = 1000;
+
     {
-        std::vector<Tester> vec;
-        Tester test;
-        for(int i = 0; i < 10000; ++i){
-            vec.push_back(test);
+        StopWatch watch;
+        for(int iter = 0; iter < test_count; ++iter){
+            std::vector<Tester> vec;
+            Tester test;
+            for(int i = 0; i < 10000; ++i){
+                vec.push_back(test);
+            }
+            vec.shrink_to_fit();
         }
     }
+    
 
     printf("Instance count: %d\n", Tester::instanceCount);
     printf("Construction count: %d\n", Tester::constructionCount);
@@ -54,12 +82,17 @@ int main(){
     Tester::destructionCount = 0;
 
     {
-        AlgoLib::DataStructure::ScaleArray<Tester> vec;
-        Tester test;
-        for(int i = 0; i < 10000; ++i){
-            vec.push_back(test);
+        StopWatch watch;
+        for(int iter = 0; iter < test_count; ++iter){
+            AlgoLib::DataStructure::ScaleArray<Tester> vec;
+            Tester test;
+            for(int i = 0; i < 10000; ++i){
+                vec.push_back(test);
+            }
+            vec.shrink_to_fit();
         }
     }
+    
 
     printf("Instance count: %d\n", Tester::instanceCount);
     printf("Construction count: %d\n", Tester::constructionCount);
