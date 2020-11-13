@@ -3,7 +3,6 @@
 #include <vector>
 #include <chrono>
 
-#define WORKAROUND
 #ifdef WORKAROUND
 #define PRId64 "lld"
 #else
@@ -49,7 +48,7 @@ class StopWatch final{
     ~StopWatch(){
         auto destruction = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(destruction - construction);
-        printf("Time elapsed: %lf us\n", duration.count() / 1000.0 / 1000.0);
+        printf("Time elapsed: %lf seconds\n", duration.count() / 1000.0 / 1000.0);
     }
 };
 
