@@ -3,12 +3,11 @@
 #include "matrix.hpp"
 
 namespace AlgoLib::Math{
-    class SquareMatrixInterface{
+    template<typename DataType>
+    class SquareMatrix: public Matrix<DataType>{
         private:
-
         public:
-        SquareMatrixInterface(){}
-
-        virtual ~SquareMatrixInterface(){}
+        SquareMatrix(size_t size): Matrix<DataType>(std::vector<size_t>(2, size){}
+        virtual ~SquareMatrix();
     };
 }
