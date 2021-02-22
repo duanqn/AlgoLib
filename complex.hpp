@@ -13,6 +13,7 @@ namespace AlgoLib::Math{
         public:
         Complex(): m_realpart(0), m_imagpart(0){}
         Complex(double real, double imag): m_realpart(real), m_imagpart(imag){}
+        Complex(Real&& real): m_realpart(real), m_imagpart(0){}
         Complex(Real&& real, Real&& imag): m_realpart(real), m_imagpart(imag){}
         Complex(const Complex& other) = default;
         Complex(Complex&& other) = default;

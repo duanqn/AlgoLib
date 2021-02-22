@@ -90,8 +90,4 @@ namespace AlgoLib::Math{
         return x.m_number <= y.m_number;
     }
 
-    Real::operator Complex() const {
-        return Complex(m_number, 0);
-    }
-
 }
