@@ -11,5 +11,4 @@ namespace AlgoLib::Math{
 
     class Real;
     class Complex;
-
-}
+} // namespace AlgoLib::Math
