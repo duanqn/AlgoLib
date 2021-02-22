@@ -1,7 +1,7 @@
 #include "tcleanup.h"
 
 void f(){
-    int volatile *ptr = new int;
+    int *ptr = new int;
     *ptr = 5;
 
     AlgoLib::SyntaxSugar::TCleanup obj([&]{
@@ -10,7 +10,6 @@ void f(){
     });
 
     printf("[First line] Hello, world!\n");
-    *ptr = (int)ptr;
 }
 
 int main(){
