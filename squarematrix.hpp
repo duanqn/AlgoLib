@@ -7,7 +7,7 @@ namespace AlgoLib::Math{
     class SquareMatrix: public Matrix<DataType>{
         private:
         public:
-        SquareMatrix(size_t size): Matrix<DataType>(std::vector<size_t>(2, size){}
+        SquareMatrix(size_t size): Matrix<DataType>(std::vector<size_t>(2, size)){}
         virtual ~SquareMatrix();
     };
 }
