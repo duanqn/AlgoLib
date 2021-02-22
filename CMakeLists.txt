@@ -16,3 +16,7 @@ foreach(file ${TEST_FILES})
     add_executable(${test_name} ${file})
     add_test(NAME ${test_name}_run COMMAND ${test_name})
 endforeach()
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(asyncExecution_test PRIVATE Threads::Threads)
