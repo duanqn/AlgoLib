@@ -1,6 +1,9 @@
 #include "FixedBranchTree.hpp"
 
 int main(){
-    AlgoLib::DataStructure::FixedBranchTreeNode<int, 2> binaryTree;
+    AlgoLib::DataStructure::BinaryTree<int> binaryTree;
+    binaryTree.setRoot(0);
+    auto root = binaryTree.getRoot();
+    binaryTree.insert(1, root);
     return 0;
 }
