@@ -1,13 +1,13 @@
 #include "asyncExecution.hpp"
 #include <cstdio>
 
-void f(int x, int y){
-    printf("%d\n", x*y);
+void f(int x){
+    printf("%d\n", x);
 }
 
 int main(){
     for(int i = 0; i < 50; ++i){
-        AlgoLib::SyntaxSugar::AsyncExecution(false, f, i, i+1);
+        AlgoLib::SyntaxSugar::AsyncExecution(false, f, i);
     }
 
     return 0;
