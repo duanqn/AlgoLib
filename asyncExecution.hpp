@@ -10,14 +10,14 @@ namespace AlgoLib::SyntaxSugar{
         std::thread m_worker;
         bool const m_wait;
         public:
-        AsyncExecution(bool waitUntioFinish, Function&& f, Args&&... args);
+        AsyncExecution(bool waitUntilFinish, Function&& f, Args&&... args);
         virtual ~AsyncExecution();
     };
 
     template<typename Function, typename... Args>
-    AsyncExecution<Function, Args...>::AsyncExecution(bool waitUntioFinish, Function&& f, Args&&... args):
+    AsyncExecution<Function, Args...>::AsyncExecution(bool waitUntilFinish, Function&& f, Args&&... args):
         m_worker(std::forward<Function>(f), std::forward<Args>(args)...),
-        m_wait(waitUntioFinish){}
+        m_wait(waitUntilFinish){}
 
     template<typename Function, typename... Args>
     AsyncExecution<Function, Args...>::~AsyncExecution(){
