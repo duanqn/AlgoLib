@@ -18,13 +18,13 @@ namespace AlgoLib::DataStructure{
         
         void validateSize(const std::vector<size_t>& size) const {
             if(size.size() != dim){
-                printf("Expecting %d but got %d\n", dim, size.size());
+                printf("Expecting %d but got %u\n", dim, size.size());
                 throw Exception(Exception::ARG_ILL_FORMAT);
             }
         }
 
         size_t calcSize(const std::vector<size_t>& size) const {            
-            unsigned int totalSize = 1;
+            size_t totalSize = 1;
 
             bool fOverflow = false;
             for(auto dimSize: size){
