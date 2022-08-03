@@ -1,6 +1,7 @@
 #pragma once
 
-#include <vector>
+#include <array>
+#include <numeric>
 #include "exception.h"
 
 namespace AlgoLib::DataStructure{
@@ -13,49 +14,21 @@ namespace AlgoLib::DataStructure{
         bool m_ownData;
 
         protected:
-        std::vector<size_t> m_size;
+        std::array<size_t, dim> m_size;
         T* m_data;
-        
-        void validateSize(const std::vector<size_t>& size) const {
-            if(size.size() != dim){
-                printf("Expecting %d but got %u\n", dim, size.size());
-                throw Exception(Exception::ARG_ILL_FORMAT);
-            }
-        }
 
-        size_t calcSize(const std::vector<size_t>& size) const {            
+        template<size_t Dim>
+        static size_t calcSize(const std::array<size_t, Dim>& size) {
             size_t totalSize = 1;
-
-            bool fOverflow = false;
-            for(auto dimSize: size){
-                #ifdef __GNUC__
-                fOverflow = __builtin_umul_overflow(totalSize, dimSize, &totalSize);
-                if(fOverflow){
-                    throw Exception(Exception::SIZE_TOOLARGE);
-                }
-                #elif defined _WIN32
-                totalSize *= dimSize;
-                #else
-                #error Platform unsupported
-                #endif
-            }
-
-            if(totalSize <= 0){
-                throw Exception(Exception::ARG_ILL_FORMAT);
-            }
-
-            return totalSize;
+            return std::accumulate(size.begin(), size.end(), static_cast<size_t>(1), std::multiplies{});
         }
 
-        ArrayND(const std::vector<size_t>& size, T* ptr): m_size(size), m_ownData(false), m_data(ptr){
-            validateSize(size);
-        }
+        ArrayND(const std::array<size_t, dim>& size, T* ptr): m_size(size), m_ownData(false), m_data(ptr) {}
 
         public:
         friend ArrayND<T, dim+1>;
 
-        ArrayND(const std::vector<size_t>& size): m_size(size), m_ownData(true){
-            validateSize(size);
+        ArrayND(const std::array<size_t, dim>& size): m_size(size), m_ownData(true){
             size_t totalSize = calcSize(size);
 
             m_data = new(std::nothrow) T[totalSize];
@@ -72,9 +45,9 @@ namespace AlgoLib::DataStructure{
 
         template<typename U = T>
         std::enable_if_t< (dim > 1), ArrayND<U, dim - 1> > operator[](size_t index){
-            std::vector<size_t> newSize;
+            std::array<size_t, dim - 1> newSize;
             for(int i = 1; i < dim; ++i){
-                newSize.push_back(m_size[i]);
+                newSize[i - 1] = m_size[i];
             }
 
             size_t elemSize = calcSize(newSize);
@@ -93,22 +66,7 @@ namespace AlgoLib::DataStructure{
         }
 
         template<typename U = T>
-        std::enable_if_t< (dim > 1), ArrayND<U, dim - 1> const> operator[](size_t index) const {
-            std::vector<size_t> newSize;
-            for(int i = 1; i < dim; ++i){
-                newSize.push_back(m_size[i]);
-            }
-
-            size_t elemSize = calcSize(newSize);
-            U* pData = m_data + elemSize * index;
-
-            ArrayND<U, dim-1> const res(newSize, pData);
-
-            return res;
-        }
-
-        template<typename U = T>
-        std::enable_if_t< (dim == 1), U const &> operator[](size_t index) const {
+        std::enable_if_t< (dim == 1), const U&> operator[](size_t index) const {
             const U* pData = m_data + index;
 
             return *pData;

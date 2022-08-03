@@ -164,8 +164,8 @@ namespace AlgoLib::DataStructure{
                 return std::make_pair(false , pos);
             }
 
-            int indexLeft = decModCapacity(pos);
-            int indexRight = incModCapacity(pos);
+            size_t indexLeft = decModCapacity(pos);
+            size_t indexRight = incModCapacity(pos);
             do{
                 if(m_data[indexLeft] == value){
                     return std::make_pair(true, indexLeft);

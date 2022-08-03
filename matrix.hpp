@@ -1,7 +1,7 @@
 #pragma once
 
 #include "arraynd.hpp"
-#include <vector>
+#include <array>
 #include <utility>
 
 namespace AlgoLib::Math{
@@ -18,8 +18,8 @@ namespace AlgoLib::Math{
         }
 
         public:
-        Matrix(std::vector<size_t> size): AlgoLib::DataStructure::Array2D<DataType>(size){}
-        Matrix(std::pair<size_t, size_t> size): AlgoLib::DataStructure::Array2D<DataType>(std::vector<size_t>({size.first, size.second})){}
+        Matrix(std::array<size_t, 2> size): AlgoLib::DataStructure::Array2D<DataType>(size){}
+        Matrix(std::pair<size_t, size_t> size): AlgoLib::DataStructure::Array2D<DataType>(std::array<size_t, 2>({size.first, size.second})){}
         virtual ~Matrix(){}
 
         void T(){

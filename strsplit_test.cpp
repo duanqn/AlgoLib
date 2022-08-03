@@ -5,7 +5,7 @@
 
 int main(){
     std::string str = "A, B, C;";
-    std::string str2 = u8"测;试";
+    std::u8string str2 = u8"测;试";
     auto list = AlgoLib::String::split<char, false>(str, ',');
     if(list[0] == "A" && list[1] == " B" && list[2] == " C;"){
 
