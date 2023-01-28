@@ -9,7 +9,7 @@ void f(int x){
 int main(){
     std::vector<std::unique_ptr<AlgoLib::SyntaxSugar::AsyncExecution>> executors(50);
     for(int i = 0; i < executors.size(); ++i) {
-        executors[i] = std::make_unique<AlgoLib::SyntaxSugar::AsyncExecution>(true, f, i);
+        executors[i] = std::make_unique<AlgoLib::SyntaxSugar::AsyncExecution>(f, i);
     }
 
     return 0;
