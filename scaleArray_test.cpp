@@ -28,14 +28,21 @@ class Tester final{
         instanceCount++;
         constructionCount++;
         ptr = new char;
+        *ptr = *(other.ptr);
     }
 
-    Tester(Tester&& other) = delete;
+    Tester(Tester&& other) noexcept {
+        constructionCount++;
+        ptr = other.ptr;
+        other.ptr = nullptr;
+    }
 
     ~Tester(){
         instanceCount--;
         destructionCount++;
-        delete ptr;
+        if (ptr != nullptr) {
+            delete ptr;
+        }
     }
 };
 

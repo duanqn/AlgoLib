@@ -6,7 +6,7 @@ enable_testing()
 set (CMAKE_CXX_STANDARD 20)
 set (CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL "Disallow fallback when required C++ std is not available.")
 
-file (GLOB_RECURSE TEST_FILES
+file (GLOB TEST_FILES
     "${CMAKE_CURRENT_LIST_DIR}/*.c"
     "${CMAKE_CURRENT_LIST_DIR}/*.cc"
     "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
