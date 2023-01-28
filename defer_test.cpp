@@ -1,10 +1,10 @@
-#include "tcleanup.h"
+#include "defer.hpp"
 
 void f(){
     int *ptr = new int;
     *ptr = 5;
 
-    AlgoLib::SyntaxSugar::TCleanup obj([&]{
+    AlgoLib::SyntaxSugar::Defer obj([&]{
         printf("[Second line] addr: %p value: %d\n", (void *)ptr, *ptr);
         delete ptr;
     });
